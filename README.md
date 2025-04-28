@@ -1,2 +1,4 @@
 # crypto-price-tracker
-init
+
+This project uses: 
+1. Fiber - go get github.com/gofiber/fiber/v2

@@ -51,4 +51,12 @@ go.work.sum
 # env file
 /backend/.env
 
+# Air
+/backend/post_cmd.txt
+/backend/pre_cmd.txt
+/backend/tmp
+
+# Binaries
+/backend/bin/*
+/backend/!bin/.keep
 

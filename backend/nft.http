@@ -1,2 +1,2 @@
-GET http://localhost:3000/api/nft
+GET http://localhost:8081/api/nft
 Content-Type: application/json

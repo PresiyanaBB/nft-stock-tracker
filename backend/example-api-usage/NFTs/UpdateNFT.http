@@ -1,0 +1,6 @@
+PUT http://localhost:8081/api/nft/53400ae3-77fe-4381-b8da-2f3ee1f8cc51
+Content-Type: application/json
+
+{
+  "name" : "maimunka 2"
+}

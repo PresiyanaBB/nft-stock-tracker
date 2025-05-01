@@ -7,6 +7,7 @@ This project uses:
    - go get github.com/caarlos0/env 
    - go get github.com/joho/godotenv
 4. Gorm for database actions - gorm.io
+5. Decimal use to handle precision loss - go get github.com/shopspring/decimal
 
 
 How to run:

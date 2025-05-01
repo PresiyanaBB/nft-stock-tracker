@@ -1,0 +1,10 @@
+POST http://localhost:8081/api/nft
+Content-Type: application/json
+
+{
+    "token_uri" : "http://nqkvo-uri-nz-2",
+    "name" : "riba",
+    "creator" : "0xa676a768b78c191549881383008014d5",
+    "price" : 600.85,
+    "image" : "/1j/4AAQSkZJRgABAQEAAAAAAAD/2wBDAAoHBwkJCB0LCwsOCw8PEh4SEh8h"
+}

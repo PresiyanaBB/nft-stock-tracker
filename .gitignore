@@ -61,3 +61,21 @@ go.work.sum
 /backend/!bin/.keep
 
 /backend/TODO.md
+
+# Default ignored files
+/shelf/
+/workspace.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+
+# Default ignored files
+/backend/shelf/
+/backend/workspace.xml
+# Editor-based HTTP Client requests
+/backend/httpRequests/
+# Datasource local storage ignored files
+/backend/dataSources/
+/backend/dataSources.local.xml

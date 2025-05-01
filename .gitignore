@@ -79,3 +79,6 @@ go.work.sum
 # Datasource local storage ignored files
 /backend/dataSources/
 /backend/dataSources.local.xml
+.idea
+/backend/.idea/
+/backend/.idea

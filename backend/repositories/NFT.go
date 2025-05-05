@@ -68,7 +68,7 @@ func (r *NFTRepository) DeleteNFT(ctx context.Context, nftId uuid.UUID) error {
 	return res.Error
 }
 
-func NewNFTRepository(db *gorm.DB) *NFTRepository {
+func NewNFTRepository(db *gorm.DB) models.NFTRepository {
 	return &NFTRepository{
 		db: db,
 	}

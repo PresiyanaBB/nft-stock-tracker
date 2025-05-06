@@ -8,6 +8,8 @@ This project uses:
    - go get github.com/joho/godotenv
 4. Gorm for database actions - gorm.io
 5. Decimal use to handle precision loss - go get github.com/shopspring/decimal
+6. Mobile app UI - https://docs.expo.dev/
+7. To run the frontend on my personal mobile phone - `https://developer.samsung.com/android-usb-driver`
 
 
 How to run:
@@ -18,4 +20,5 @@ How to run:
    - DB_USER=postgres
    - DB_PASSWORD=postgres
    - DB_SSLMODE=disable
-2. run `make start`
+2. run `make start` for backend
+3. run `yarn start` for frontend

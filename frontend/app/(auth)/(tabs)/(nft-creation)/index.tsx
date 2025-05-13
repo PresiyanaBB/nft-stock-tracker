@@ -14,6 +14,8 @@ import { useNavigation, router } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { Alert, FlatList, TouchableOpacity } from 'react-native';
 import { validate as validateUUID } from 'uuid';
+import { Image } from 'react-native';
+
 
 export default function NFTsScreen() {
   const { user } = useAuth();
@@ -129,6 +131,13 @@ export default function NFTsScreen() {
                 )}
               </HStack>
             </TouchableOpacity>
+
+            <Divider />
+
+            <Image source={{ uri: `data:image/png;base64,${NFT.image}` }}
+                   style={{ width: 100, height: 100, borderRadius: 10 }}
+                   resizeMode="cover"
+            />
 
             <Divider />
 

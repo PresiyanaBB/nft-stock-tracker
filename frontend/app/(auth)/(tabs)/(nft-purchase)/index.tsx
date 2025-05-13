@@ -79,16 +79,16 @@ export default function UserNFTScreen() {
         onRefresh={fetchNFTs}
         refreshing={isLoading}
         ItemSeparatorComponent={() => <VStack h={20} />}
-        renderItem={({ item: NFT }) => (
+        renderItem={({ item: current_NFT }) => (
           <TouchableOpacity
-            disabled={NFT.collected}
-            onPress={() => onGoToUserNFTPage(NFT.id)}
+            disabled={current_NFT.collected}
+            onPress={() => onGoToUserNFTPage(current_NFT.id)}
           >
           <VStack
              gap={12}
              h={120}
              style={{
-               opacity: NFT.collected ? 0.5 : 1,
+               opacity: current_NFT.collected ? 0.5 : 1,
                backgroundColor: "white",
                borderRadius: 20,
                boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
@@ -98,26 +98,26 @@ export default function UserNFTScreen() {
 
               <HStack alignItems="center" justifyContent="space-between">
                 <HStack alignItems="center" gap={10}>
-                  <Image
-                    source={{ uri: `data:image/png;base64,${NFT.NFT.image}` }}
-                    style={{ width: 50, height: 50, borderRadius: 10 }}
-                    resizeMode="cover"
-                  />
                   <VStack>
-                    <Text fontSize={18} bold>{NFT.NFT.name}</Text>
-                    <Text fontSize={12} color="gray">
-                      {new Date(NFT.NFT.createdAt).toLocaleDateString()}
-                    </Text>
+                    <Image source={{ uri: `data:image/png;base64,${current_NFT.NFT.image}` }}
+                           style={{ width: 50, height: 50, borderRadius: 10 }}
+                           resizeMode="cover"
+                    />
+                  </VStack>
+                  <VStack>
+                    <Text fontSize={18} bold>{current_NFT.NFT.name}</Text>
+                    <Text fontSize={22} bold> | </Text>
+                    <Text fontSize={18} bold>{current_NFT.NFT.price}</Text>
                   </VStack>
                 </HStack>
 
                 <VStack alignItems="center">
                   <Text fontSize={16} bold>
-                    {NFT.collected ? "Owned" : "Not-Owned"}
+                    {current_NFT.collected ? "Owned" : "Not-Owned"}
                   </Text>
-                  {NFT.collected && (
+                  {current_NFT.collected && (
                     <Text mt={4} fontSize={10} color="gray">
-                      {new Date(NFT.updatedAt).toLocaleString()}
+                      {new Date(current_NFT.updatedAt).toLocaleString()}
                     </Text>
                   )}
                 </VStack>

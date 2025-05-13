@@ -1,8 +1,10 @@
+// AuthContext.tsx
 import { userService } from '@/services/user';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState } from 'react';
 import { router } from 'expo-router';
 import { User } from '@/types/user';
+import axios from 'axios';
 
 interface AuthContextProps {
   isLoggedIn: boolean;
@@ -48,13 +50,21 @@ export function AuthenticationProvider({ children }: React.PropsWithChildren) {
 
       if (response) {
         setIsLoggedIn(true);
-        await AsyncStorage.setItem('token', response.data.token);
-        await AsyncStorage.setItem('user', JSON.stringify(response.data.user));
-        setUser(response.data.user);
+        await AsyncStorage.setItem('token', response.token);
+        await AsyncStorage.setItem('user', JSON.stringify(response.user));
+        setUser(response.user);
         router.replace('(auth)');
       }
     } catch (error) {
       setIsLoggedIn(false);
+
+      if (axios.isAxiosError(error)) {
+        console.error("Authentication Error:", error.response?.data);
+        alert(error.response?.data?.error || "Authentication failed. Please try again.");
+      } else {
+        console.error("Unexpected Error:", error);
+        alert("An unexpected error occurred. Please try again.");
+      }
     } finally {
       setIsLoadingAuth(false);
     }
@@ -64,18 +74,20 @@ export function AuthenticationProvider({ children }: React.PropsWithChildren) {
     setIsLoggedIn(false);
     await AsyncStorage.removeItem('token');
     await AsyncStorage.removeItem('user');
+    setUser(null);
+    router.replace('/login');
   }
 
   return (
     <AuthContext.Provider
-      value={ {
+      value={{
         authenticate,
         logout,
         isLoggedIn,
         isLoadingAuth,
         user,
-      } }>
-      { children }
+      }}>
+      {children}
     </AuthContext.Provider>
   );
 }

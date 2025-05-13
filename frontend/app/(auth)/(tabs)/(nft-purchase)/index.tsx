@@ -64,7 +64,7 @@ export default function UserNFTScreen() {
               borderRadius: 10,
               alignItems: "center",
             }}
-            onPress={() => router.push('/(nft-creation)/index')}
+            onPress={() => router.push('/(nft-creation)')}
           >
             <Text style={{ color: "white", fontSize: 16, fontWeight: "bold" }}>
               Create NFT
@@ -84,20 +84,18 @@ export default function UserNFTScreen() {
             disabled={NFT.collected}
             onPress={() => onGoToUserNFTPage(NFT.id)}
           >
-            <VStack
-              gap={12}
-              h={120}
-              style={{
-                opacity: NFT.collected ? 0.5 : 1,
-                backgroundColor: "white",
-                borderRadius: 20,
-                shadowColor: "#000",
-                shadowOpacity: 0.1,
-                shadowOffset: { width: 0, height: 2 },
-                shadowRadius: 5,
-                padding: 15,
-              }}
-            >
+          <VStack
+             gap={12}
+             h={120}
+             style={{
+               opacity: NFT.collected ? 0.5 : 1,
+               backgroundColor: "white",
+               borderRadius: 20,
+               boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
+               padding: 15,
+             }}
+           >
+
               <HStack alignItems="center" justifyContent="space-between">
                 <HStack alignItems="center" gap={10}>
                   <Image

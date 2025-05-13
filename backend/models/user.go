@@ -2,7 +2,7 @@ package models
 
 import (
 	"github.com/google/uuid"
-	"golang.org/x/crypto/bcrypt"
+// 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 	"time"
 )
@@ -35,9 +35,6 @@ func (u *User) AfterCreate(db *gorm.DB) (err error) {
 	if u.Email == "admin@gmail.com" {
 		db.Model(u).Update("role", Admin)
 	}
-
-	bytes, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
-	db.Model(u).Update("password", string(bytes))
 
 	return
 }

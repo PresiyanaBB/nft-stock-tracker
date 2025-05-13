@@ -2,11 +2,12 @@ package handlers
 
 import (
 	"context"
-	"fmt"
+// 	"fmt"
+	"time"
+
 	"github.com/PresiyanaBB/crypto-price-tracker/models"
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
-	"time"
 )
 
 var validate = validator.New()
@@ -18,75 +19,76 @@ type AuthHandler struct {
 func (h *AuthHandler) Login(ctx *fiber.Ctx) error {
 	creds := &models.AuthCredentials{}
 
-	c, cancel := context.WithTimeout(context.Background(), time.Duration(5*time.Second))
+	c, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
+
 	if err := ctx.BodyParser(&creds); err != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "fail",
-			"message": err.Error(),
+			"message": "Invalid request format. Please provide valid JSON.",
 		})
 	}
 
+
 	if err := validate.Struct(creds); err != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "fail",
-			"message": err.Error(),
+			"message": "Invalid credentials. Please provide a valid email and password.",
 		})
 	}
 
 	token, user, err := h.service.Login(c, creds)
-
 	if err != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+		return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 			"status":  "fail",
-			"message": err.Error(),
+			"message": "Invalid email or password.",
 		})
 	}
 
-	return ctx.Status(fiber.StatusOK).JSON(&fiber.Map{
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
 		"status":  "success",
 		"message": "Successfully logged in",
-		"data": &fiber.Map{
+		"data": fiber.Map{
 			"token": token,
 			"user":  user,
 		},
 	})
 }
 
+
 func (h *AuthHandler) Register(ctx *fiber.Ctx) error {
 	creds := &models.AuthCredentials{}
 
-	c, cancel := context.WithTimeout(context.Background(), time.Duration(5*time.Second))
+	c, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
 	if err := ctx.BodyParser(&creds); err != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "fail",
-			"message": err.Error(),
+			"message": "Invalid request format. Please provide valid JSON.",
 		})
 	}
 
 	if err := validate.Struct(creds); err != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "fail",
-			"message": fmt.Errorf("please, provide a valid name, email and password").Error(),
+			"message": "Please provide a valid name, email, and password.",
 		})
 	}
 
 	token, user, err := h.service.Register(c, creds)
-
 	if err != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+		return ctx.Status(fiber.StatusConflict).JSON(fiber.Map{
 			"status":  "fail",
-			"message": err.Error(),
+			"message": "User already exists or registration failed.",
 		})
 	}
 
-	return ctx.Status(fiber.StatusCreated).JSON(&fiber.Map{
+	return ctx.Status(fiber.StatusCreated).JSON(fiber.Map{
 		"status":  "success",
 		"message": "Successfully registered",
-		"data": &fiber.Map{
+		"data": fiber.Map{
 			"token": token,
 			"user":  user,
 		},

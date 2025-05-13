@@ -54,10 +54,9 @@ export default function UserNFTDetailScreen() {
       style={{
         backgroundColor: "white",
         borderRadius: 20,
-        shadowColor: "#000",
-        shadowOpacity: 0.2,
-        shadowOffset: { width: 0, height: 4 },
-        shadowRadius: 10,
+        dowColor: "#000",
+        borderRadius: 20,
+        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
         elevation: 5,
       }}
     >

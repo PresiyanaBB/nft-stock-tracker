@@ -10,6 +10,7 @@ import (
 	"github.com/PresiyanaBB/crypto-price-tracker/repositories"
 	"github.com/PresiyanaBB/crypto-price-tracker/services"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 func main() {
@@ -20,6 +21,13 @@ func main() {
 		AppName:      "CryptoPriceTracker",
 		ServerHeader: "Fiber",
 	})
+
+	// ✅ Add CORS Middleware (Allow all origins)
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "http://localhost:8082", // Your frontend URL
+		AllowMethods: "GET,POST,PUT,DELETE,OPTIONS",
+		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
+	}))
 
 	// Repositories
 	nftRepository := repositories.NewNFTRepository(database)

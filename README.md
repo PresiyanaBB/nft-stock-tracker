@@ -21,4 +21,4 @@ How to run:
    - DB_PASSWORD=postgres
    - DB_SSLMODE=disable
 2. run `make start` for backend
-3. run `yarn start` for frontend
+3. run `yarn start` for frontend or `npx expo start -c`

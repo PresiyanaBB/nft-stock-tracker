@@ -18,6 +18,7 @@ export default function UserNFTScreen() {
   const [NFTs, setNFTs] = useState<UserNFT[]>([]);
 
   function onGoToUserNFTPage(id: string) {
+      console.log("Fetching NFT:");
     if (validateUUID(id)) {
       router.push(`/(nft-purchase)/nft/${id}`);
     } else {
@@ -117,7 +118,7 @@ export default function UserNFTScreen() {
                   </Text>
                   {current_NFT.collected && (
                     <Text mt={4} fontSize={10} color="gray">
-                      {new Date(current_NFT.updatedAt).toLocaleString()}
+                      Created on: {current_NFT.created_at.split("T")[0]}
                     </Text>
                   )}
                 </VStack>

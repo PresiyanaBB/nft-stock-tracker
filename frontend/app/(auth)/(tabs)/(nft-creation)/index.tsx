@@ -65,7 +65,7 @@ export default function NFTsScreen() {
     }
 
     try {
-      await userNFTService.createNFT(id);
+      await userNFTService.createUserNFT(id);
       Alert.alert("Success", "NFT purchased successfully");
       fetchNFTs();
     } catch (error) {
@@ -160,8 +160,8 @@ export default function NFTsScreen() {
               </Button>
             )}
 
-            <Text fontSize={13} color='gray'>
-              {new Date(NFT.date).toLocaleString()}
+            <Text fontSize={13} color="gray">
+              Created on: {NFT.created_at.split("T")[0]}
             </Text>
           </VStack>
         )}

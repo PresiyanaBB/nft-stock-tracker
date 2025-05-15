@@ -13,8 +13,8 @@ export default function TabLayout() {
     {
       showFor: [UserRole.Collector, UserRole.Admin],
       name: '(nft-creation)',
-      displayName: 'Sell NFT',
-      icon: 'create',
+      displayName: 'Buy NFT',
+      icon: 'search',
       options: {
         headerShown: false
       }
@@ -22,7 +22,7 @@ export default function TabLayout() {
     {
       showFor: [UserRole.Collector],
       name: '(nft-purchase)',
-      displayName: 'Buy NFT',
+      displayName: 'Owned NFT',
       icon: 'wallet',
       options: {
         headerShown: false

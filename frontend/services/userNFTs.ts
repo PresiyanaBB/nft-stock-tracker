@@ -3,7 +3,7 @@ import { Api } from "./api";
 import { ApiResponse } from "@/types/api";
 
 async function createUserNFT(nftId: string): Promise<UserNFTResponse> {
-  return Api.post("/userNFT", { nftId });
+  return Api.post("/userNFT", {nftId});
 }
 
 async function getUserNFT(id: string): Promise<ApiResponse<{ userNFT: UserNFT, qrcode: string }>> {

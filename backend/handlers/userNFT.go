@@ -3,11 +3,12 @@ package handlers
 import (
 	"context"
 	"fmt"
+	"time"
+
 	"github.com/PresiyanaBB/crypto-price-tracker/models"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	"github.com/skip2/go-qrcode"
-	"time"
 )
 
 type UserNFTHandler struct {
@@ -82,6 +83,7 @@ func (h *UserNFTHandler) CreateUserNFT(ctx *fiber.Ctx) error {
 
 	userId, _ := uuid.Parse(ctx.Locals("userId").(string))
 	userNFT := &models.UserNFT{}
+	userNFT.UserID = userId
 
 	if err := ctx.BodyParser(userNFT); err != nil {
 		return ctx.Status(fiber.StatusUnprocessableEntity).JSON(&fiber.Map{

@@ -6,7 +6,7 @@ import { UserNFT } from "@/types/userNFT";
 import { useFocusEffect } from "@react-navigation/native";
 import { router, useNavigation } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
-import { Alert, FlatList, TouchableOpacity, Image, Button } from "react-native";
+import { Image, Alert, FlatList, TouchableOpacity, Button } from "react-native";
 import { validate as validateUUID } from 'uuid';
 import { useAuth } from "@/context/AuthContext";
 import { UserRole } from "@/types/user";
@@ -18,7 +18,7 @@ export default function UserNFTScreen() {
   const [NFTs, setNFTs] = useState<UserNFT[]>([]);
 
   function onGoToUserNFTPage(id: string) {
-      console.log("Fetching NFT:");
+    console.log("Fetching NFT:");
     if (validateUUID(id)) {
       router.push(`/(nft-purchase)/nft/${id}`);
     } else {
@@ -52,7 +52,7 @@ export default function UserNFTScreen() {
   return (
     <VStack flex={1} p={20} gap={20}>
       <HStack alignItems="center" justifyContent="space-between">
-        <Text fontSize={18} bold>{NFTs.length} NFTs</Text>
+        <Text fontSize={18} bold> {NFTs.length} NFTs</Text>
       </HStack>
 
       {/* Create NFT Section for Admins */}
@@ -82,33 +82,32 @@ export default function UserNFTScreen() {
         ItemSeparatorComponent={() => <VStack h={20} />}
         renderItem={({ item: current_NFT }) => (
           <TouchableOpacity
-            disabled={current_NFT.collected}
+            // disabled={current_NFT.collected}
             onPress={() => onGoToUserNFTPage(current_NFT.id)}
           >
-          <VStack
-             gap={12}
-             h={120}
-             style={{
-               opacity: current_NFT.collected ? 0.5 : 1,
-               backgroundColor: "white",
-               borderRadius: 20,
-               boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
-               padding: 15,
-             }}
-           >
-
+            <VStack
+              gap={12}
+              h={120}
+              style={{
+                opacity: current_NFT.collected ? 0.5 : 1,
+                backgroundColor: "white",
+                borderRadius: 20,
+                boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
+                padding: 15,
+              }}
+            >
               <HStack alignItems="center" justifyContent="space-between">
                 <HStack alignItems="center" gap={10}>
                   <VStack>
-                    <Image source={{ uri: `data:image/png;base64,${current_NFT.NFT.image}` }}
-                           style={{ width: 50, height: 50, borderRadius: 10 }}
-                           resizeMode="cover"
+                    <Image source={{ uri: `data:image/png;base64,${current_NFT.nft.image}` }}
+                      style={{ width: 100, height: 100, borderRadius: 10 }}
+                      resizeMode="cover"
                     />
                   </VStack>
                   <VStack>
-                    <Text fontSize={18} bold>{current_NFT.NFT.name}</Text>
+                    <Text fontSize={18} bold>{current_NFT.nft.name}</Text>
                     <Text fontSize={22} bold> | </Text>
-                    <Text fontSize={18} bold>{current_NFT.NFT.price}</Text>
+                    <Text fontSize={18} bold>{current_NFT.nft.price}</Text>
                   </VStack>
                 </HStack>
 

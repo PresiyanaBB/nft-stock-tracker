@@ -1,5 +1,4 @@
 import { ApiResponse } from "./api";
-import { validate as validateUUID, v4 as uuidv4 } from 'uuid';
 
 export type NFTResponse = ApiResponse<NFT>;
 export type NFTListResponse = ApiResponse<NFT[]>;

@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"context"
+
 	"github.com/PresiyanaBB/crypto-price-tracker/models"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
@@ -26,7 +27,7 @@ func (r *UserNFTRepository) GetManyUserNFTs(ctx context.Context, userId uuid.UUI
 func (r *UserNFTRepository) GetUserNFT(ctx context.Context, userId uuid.UUID, userNFTId uuid.UUID) (*models.UserNFT, error) {
 	userNFT := &models.UserNFT{}
 
-	res := r.db.Model(userNFT).Where("id = ?", userNFTId).Where("user_id = ?", userId).Preload("UserNFT").First(userNFT)
+	res := r.db.Model(&models.UserNFT{}).Where("id = ? and user_id = ?", userNFTId, userId).Preload("NFT").First(userNFT)
 
 	if res.Error != nil {
 		return nil, res.Error
@@ -37,6 +38,13 @@ func (r *UserNFTRepository) GetUserNFT(ctx context.Context, userId uuid.UUID, us
 
 func (r *UserNFTRepository) CreateUserNFT(ctx context.Context, userId uuid.UUID, userNFT *models.UserNFT) (*models.UserNFT, error) {
 	userNFT.UserID = userId
+
+	var existingUserNFT models.UserNFT
+	if err := r.db.Model(&models.UserNFT{}).
+		Where("user_id = ? AND nft_id = ?", userId, userNFT.NFTID).
+		First(&existingUserNFT).Error; err == nil {
+		return nil, err
+	}
 
 	res := r.db.Model(userNFT).Create(userNFT)
 

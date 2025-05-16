@@ -22,8 +22,8 @@ export default function UserNFTDetailScreen() {
     }
 
     try {
-      const { data } = await userNFTService.getuserNFT(id.toString());
-      setNFT(data.NFT);
+      const { data } = await userNFTService.getUserNFT(id);
+      setNFT(data.userNFT.nft);
       setQrcode(data.qrcode);
     } catch (error) {
       console.error("Error fetching user NFT:", error);

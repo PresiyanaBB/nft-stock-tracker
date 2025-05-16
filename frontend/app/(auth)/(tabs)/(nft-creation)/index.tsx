@@ -7,14 +7,13 @@ import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { useAuth } from '@/context/AuthContext';
 import { NFTService } from '@/services/NFTs';
 import { userNFTService } from '@/services/userNFTs';
-import { NFT } from '@/types/nft';
+import { NFT } from '@/types/NFT';
 import { UserRole } from '@/types/user';
 import { useFocusEffect } from '@react-navigation/native';
 import { useNavigation, router } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
-import { Alert, FlatList, TouchableOpacity } from 'react-native';
+import { Image, Alert, FlatList, TouchableOpacity } from 'react-native';
 import { validate as validateUUID } from 'uuid';
-import { Image } from 'react-native';
 
 
 export default function NFTsScreen() {
@@ -32,22 +31,22 @@ export default function NFTsScreen() {
 
 
   const HeaderRight = () => {
-  const { user } = useAuth();
+    const { user } = useAuth();
 
-  function goToNewNFT() {
-    if (user?.role === UserRole.Admin) {
-      router.push('/(nft-creation)/new');
-    } else {
-      Alert.alert("Access Denied", "Only administrators can create NFTs.");
+    function goToNewNFT() {
+      if (user?.role === UserRole.Admin) {
+        router.push('/(nft-creation)/new');
+      } else {
+        Alert.alert("Access Denied", "Only administrators can create NFTs.");
+      }
     }
-  }
 
-  return (
-    <TabBarIcon
-      size={32}
-      name="add-circle-outline"
-      onPress={goToNewNFT}
-    />
+    return (
+      <TabBarIcon
+        size={32}
+        name="add-circle-outline"
+        onPress={goToNewNFT}
+      />
     );
   };
 
@@ -68,6 +67,7 @@ export default function NFTsScreen() {
       await userNFTService.createUserNFT(id);
       Alert.alert("Success", "NFT purchased successfully");
       fetchNFTs();
+      router.push('/(nft-purchase)');
     } catch (error) {
       Alert.alert("Error", "Failed to buy NFT");
     }
@@ -135,8 +135,8 @@ export default function NFTsScreen() {
             <Divider />
 
             <Image source={{ uri: `data:image/png;base64,${NFT.image}` }}
-                   style={{ width: 100, height: 100, borderRadius: 10 }}
-                   resizeMode="cover"
+              style={{ width: 100, height: 100, borderRadius: 10 }}
+              resizeMode="cover"
             />
 
             <Divider />

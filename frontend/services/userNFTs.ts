@@ -1,17 +1,30 @@
-import { UserNFT, UserNFTListResponse, UserNFTResponse } from "@/types/userNFTs";
+import { UserNFT, UserNFTListResponse, UserNFTResponse } from "@/types/userNFT";
+import { NFTService } from "@/services/NFTs";
 import { Api } from "./api";
 import { ApiResponse } from "@/types/api";
 
 async function createUserNFT(nftId: string): Promise<UserNFTResponse> {
-  return Api.post("/userNFT", {nftId});
+  return Api.post("/userNFT", { nft_id: nftId });
 }
 
-async function getUserNFT(id: string): Promise<ApiResponse<{ userNFT: UserNFT, qrcode: string }>> {
-  return Api.get(`/userNFT/${id}`);
+async function getUserNFT(userNFT_id: string): Promise<ApiResponse<{ userNFT: UserNFT, qrcode: string }>> {
+  const response = await Api.get(`/userNFT/${userNFT_id}`);
+  return { data: response.data, message: "ok", status: "success" };
 }
 
 async function getAll(): Promise<UserNFTListResponse> {
-  return Api.get("/userNFT");
+  const response = await Api.get("/userNFT");
+
+  response.data.forEach(async (userNFT: UserNFT) => {
+    try {
+      const nftResponse = await NFTService.getNFT(userNFT.nft_id);
+      userNFT.nft = nftResponse.data;
+    } catch (error) {
+      console.error(`Failed to fetch NFT for UserNFT ${userNFT.id}`, error);
+    }
+  });
+
+  return { data: response.data, message: "ok", status: "success" };
 }
 
 async function validateUserNFT(userNFTId: string, ownerId: string): Promise<UserNFTResponse> {

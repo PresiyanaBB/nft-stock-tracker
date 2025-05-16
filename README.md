@@ -16,7 +16,7 @@
    - DB_PASSWORD=postgres
    - DB_SSLMODE=disable
 
-2. Start the app
+3. Start the app
 
    - Open Docker
 
@@ -37,6 +37,7 @@
 5. Create a collector account and buy some NFTs
 
 6. Open the app on your phone and scan the QR code that is provided from expo (on the terminal)
+
 7. Log in as admin and scan the QR code for the NFT of the collector
 
 

@@ -23,11 +23,11 @@ func main() {
 	})
 
 	app.Use(cors.New(cors.Config{
-        AllowOrigins: "http://localhost:8082, http://localhost:8083",
-        AllowMethods: "GET,POST,PUT,DELETE,OPTIONS",
-        AllowHeaders: "Origin, Content-Type, Accept, Authorization",
-        AllowCredentials: true, // Allow credentials (cookies, etc.)
-    }))
+		AllowOrigins:     "http://localhost:8082, http://localhost:8083, http://192.168.43.150:8082",
+		AllowMethods:     "GET,POST,PUT,DELETE,OPTIONS",
+		AllowHeaders:     "Origin, Content-Type, Accept, Authorization",
+		AllowCredentials: true, // Allow credentials (cookies, etc.)
+	}))
 
 	// Repositories
 	nftRepository := repositories.NewNFTRepository(database)

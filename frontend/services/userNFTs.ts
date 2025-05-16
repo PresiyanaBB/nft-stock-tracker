@@ -27,8 +27,8 @@ async function getAll(): Promise<UserNFTListResponse> {
   return { data: response.data, message: "ok", status: "success" };
 }
 
-async function validateUserNFT(userNFTId: string, ownerId: string): Promise<UserNFTResponse> {
-  return Api.post("/userNFT/validate", { userNFTId, ownerId });
+async function validateUserNFT(UserNFTId: string, OwnerId: string): Promise<UserNFTResponse> {
+  return Api.post("/userNFT/validate", { UserNFTId, OwnerId });
 }
 
 const userNFTService = {

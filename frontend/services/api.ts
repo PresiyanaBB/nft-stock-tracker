@@ -4,10 +4,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Use 8081 (backend port)
 const url = Platform.OS === "android"
-  ? "http://10.0.2.2:8081"
+  ? "http://192.168.43.150:8081"
   : Platform.OS === "web"
-  ? "http://localhost:8081"
-  : "http://127.0.0.1:8081";
+    ? "http://localhost:8081"
+    : "http://127.0.0.1:8081";
 
 const Api: AxiosInstance = axios.create({ baseURL: url + "/api" });
 

@@ -35,26 +35,15 @@ export default function ScanUserNFTScreen() {
     try {
       Vibration.vibrate();
       setScanningEnabled(false);
-      setIsLoading(true);
-
+      // setIsLoading(true);
+      console.log("Scanned data:", data);
       // Parsing the scanned data
-      const scannedData = data.split(",");
-      const nftData = scannedData.find((item) => item.startsWith("NFT:"));
-      const ownerData = scannedData.find((item) => item.startsWith("Owner:"));
-
-      if (!nftData || !ownerData) {
-        throw new Error("Invalid QR code format.");
-      }
-
-      const NFTId = nftData.split(":")[1].trim();
-      const ownerId = ownerData.split(":")[1].trim();
-
-      if (!validateUUID(NFTId) || !validateUUID(ownerId)) {
-        throw new Error("Invalid NFT or Owner ID.");
-      }
+      const [userNFT, owner] = data.split(",");
+      const UserNFTId = userNFT.split(":")[1].trim();
+      const OwnerId = owner.split(":")[1].trim();
 
       // Validating the NFT
-      await userNFTService.validateNFT(NFTId, ownerId);
+      await userNFTService.validateUserNFT(UserNFTId, OwnerId);
 
       Alert.alert('Success', "NFT validated successfully.", [
         { text: 'Ok', onPress: () => setScanningEnabled(true) },
@@ -63,8 +52,6 @@ export default function ScanUserNFTScreen() {
     } catch (error: any) {
       Alert.alert('Error', error.message || "Failed to validate NFT. Please try again.");
       setScanningEnabled(true);
-    } finally {
-      setIsLoading(false);
     }
   }
 

@@ -82,7 +82,7 @@ export default function UserNFTScreen() {
         ItemSeparatorComponent={() => <VStack h={20} />}
         renderItem={({ item: current_NFT }) => (
           <TouchableOpacity
-            // disabled={current_NFT.collected}
+            disabled={current_NFT.collected}
             onPress={() => onGoToUserNFTPage(current_NFT.id)}
           >
             <VStack

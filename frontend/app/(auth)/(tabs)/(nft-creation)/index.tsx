@@ -77,7 +77,12 @@ export default function NFTsScreen() {
     try {
       setIsLoading(true);
       const response = await NFTService.getAll();
-      setNFTs(response.data);
+      const userNFTs = await userNFTService.getAll();
+      setNFTs(response.data.filter((nft: NFT) => {
+        return !userNFTs.data.some((userNFT) => {
+          return userNFT.nft_id === nft.id && userNFT.collected === true;
+        })
+      }));
     } catch (error) {
       Alert.alert("Error", "Failed to fetch NFTs");
     } finally {
@@ -140,15 +145,6 @@ export default function NFTsScreen() {
             />
 
             <Divider />
-
-            <HStack justifyContent='space-between'>
-              <Text bold fontSize={16} color='gray'>
-                Sold: {NFT.totalNFTsPurchased ?? 0}
-              </Text>
-              <Text bold fontSize={16} color='green'>
-                Checked: {NFT.totalNFTsChecked ?? 0}
-              </Text>
-            </HStack>
 
             {user?.role === UserRole.Collector && (
               <Button

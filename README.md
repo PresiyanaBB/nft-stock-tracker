@@ -20,13 +20,13 @@
 
    - Open Docker
 
-   - In backend/ folder:
+   - In backend/ :
 
    ```bash
    make start
    ```
 
-   - In frontend/ folder: 
+   - In frontend/ : 
 
    ```bash
    npx expo start

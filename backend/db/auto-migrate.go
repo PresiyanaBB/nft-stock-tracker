@@ -2,6 +2,7 @@ package db
 
 import (
 	"github.com/PresiyanaBB/crypto-price-tracker/models"
+	"github.com/PresiyanaBB/crypto-price-tracker/models/stock"
 	"gorm.io/gorm"
 )
 
@@ -27,5 +28,5 @@ import (
 // }
 
 func DBMigrator(db *gorm.DB) error {
-	return db.AutoMigrate(&models.NFT{}, &models.UserNFT{}, &models.User{})
+	return db.AutoMigrate(&models.NFT{}, &models.UserNFT{}, &models.User{}, &stock.Candle{})
 }

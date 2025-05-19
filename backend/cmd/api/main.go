@@ -2,15 +2,16 @@ package main
 
 import (
 	"fmt"
-
 	"github.com/PresiyanaBB/crypto-price-tracker/config"
 	"github.com/PresiyanaBB/crypto-price-tracker/db"
 	"github.com/PresiyanaBB/crypto-price-tracker/handlers"
+	"github.com/PresiyanaBB/crypto-price-tracker/handlers/stock"
 	"github.com/PresiyanaBB/crypto-price-tracker/middlewares"
 	"github.com/PresiyanaBB/crypto-price-tracker/repositories"
 	"github.com/PresiyanaBB/crypto-price-tracker/services"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"net/http"
 )
 
 func main() {
@@ -36,6 +37,27 @@ func main() {
 
 	// Service
 	authService := services.NewAuthService(authRepository)
+
+	// WebSockets - Finnhub
+	finnhubWSConn := stock.ConnectToFinnhub(envConfig)
+	defer finnhubWSConn.Close()
+
+	// Handle WebSocket
+	go stock.HandleFinnhubMessages(finnhubWSConn, database)
+
+	// Broadcast
+	go stock.BroadcastUpdates()
+
+	//WS handlers
+	http.HandleFunc("/ws", stock.WSHandler)
+
+	http.HandleFunc("/stocks-history", func(w http.ResponseWriter, r *http.Request) {
+		stock.StocksHistoryHandler(w, r, database)
+	})
+
+	http.HandleFunc("/stock-candles", func(w http.ResponseWriter, r *http.Request) {
+		stock.CandlesHandler(w, r, database)
+	})
 
 	// Routing
 	server := app.Group("/api")

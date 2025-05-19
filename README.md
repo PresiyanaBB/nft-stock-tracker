@@ -1,4 +1,4 @@
-# Welcome to Crypto Trading App 👋
+# Welcome 👋
 
 ## Get started
 
@@ -10,6 +10,7 @@
 
 2. Create a .env file in backend/ and add the following according to you:
    - SERVER_PORT=8081
+   - API_KEY=<get your api key after registrating to Finnhub>
    - DB_HOST=localhost
    - DB_NAME=postgres
    - DB_USER=postgres
@@ -43,7 +44,7 @@
 ##### Point of the NFT game is to "buy" the NFT and the first one to get it scanned by out admin wins the NFT.
 
 ## This project uses: 
-1. Fiber - go get github.com/gofiber/fiber/v2
+1. Fiber
 2. Golang Air for how reloading - https://github.com/air-verse/air/blob/master/air_example.toml
 3. For env 
    - go get github.com/caarlos0/env 
@@ -51,3 +52,5 @@
 4. Gorm for database actions - gorm.io
 5. Decimal use to handle precision loss - go get github.com/shopspring/decimal
 6. Frontend - https://docs.expo.dev/
+7. API from Finnhub
+8. Web socket from gorilla

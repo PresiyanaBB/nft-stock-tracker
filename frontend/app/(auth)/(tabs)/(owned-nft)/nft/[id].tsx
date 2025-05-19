@@ -22,7 +22,11 @@ export default function UserNFTDetailScreen() {
     }
 
     try {
-      const { data } = await userNFTService.getUserNFT(id);
+      const userNFTs = await userNFTService.getUserNFTs();
+      const userNFTId = userNFTs.data.find((userNFT) => {
+        return userNFT.nft_id === id;
+      });
+      const { data } = await userNFTService.getUserNFT(userNFTId.id);
       setNFT(data.userNFT.nft);
       setQrcode(data.qrcode);
     } catch (error) {

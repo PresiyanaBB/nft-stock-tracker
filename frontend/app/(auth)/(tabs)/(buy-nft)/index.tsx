@@ -35,7 +35,7 @@ export default function NFTsScreen() {
 
     function goToNewNFT() {
       if (user?.role === UserRole.Admin) {
-        router.push('/(nft-creation)/new');
+        router.push('/(buy-nft)/new');
       } else {
         Alert.alert("Access Denied", "Only administrators can create NFTs.");
       }
@@ -53,7 +53,7 @@ export default function NFTsScreen() {
 
   function onGoToNFTPage(id: string) {
     if (user?.role === UserRole.Admin) {
-      router.push(`/(nft-creation)/nft/${id}`);
+      router.push(`/(buy-nft)/nft/${id}`);
     }
   }
 
@@ -67,7 +67,7 @@ export default function NFTsScreen() {
       await userNFTService.createUserNFT(id);
       Alert.alert("Success", "NFT purchased successfully");
       fetchNFTs();
-      router.push('/(nft-purchase)');
+      router.push('/(owned-nft)');
     } catch (error) {
       Alert.alert("Error", "Failed to buy NFT");
     }
@@ -76,13 +76,22 @@ export default function NFTsScreen() {
   const fetchNFTs = async () => {
     try {
       setIsLoading(true);
-      const response = await NFTService.getAll();
+      let response = await NFTService.getAll();
       const userNFTs = await userNFTService.getAll();
-      setNFTs(response.data.filter((nft: NFT) => {
-        return !userNFTs.data.some((userNFT) => {
-          return userNFT.nft_id === nft.id && userNFT.collected === true;
-        })
-      }));
+      console.log("UserNFTs:", userNFTs.data);
+      response.data.forEach((nft: NFT) => {
+        nft.collected = false;
+        userNFTs.data.forEach((userNFT) => {
+          if (userNFT.nft_id === nft.id) {
+            nft.collected = userNFT.collected;
+          }
+        });
+      });
+      console.log("NFTs:", response.data);
+      response.data = response.data.filter((nft: NFT) => {
+        return nft.collected === false;
+      });
+      setNFTs(response.data);
     } catch (error) {
       Alert.alert("Error", "Failed to fetch NFTs");
     } finally {
@@ -129,7 +138,7 @@ export default function NFTsScreen() {
                 <HStack alignItems='center'>
                   <Text fontSize={26} bold>{NFT.name}</Text>
                   <Text fontSize={26} bold> | </Text>
-                  <Text fontSize={16} bold>{NFT.price}</Text>
+                  <Text fontSize={16} bold>{NFT.price} $</Text>
                 </HStack>
                 {user?.role === UserRole.Admin && (
                   <TabBarIcon size={24} name="chevron-forward" />
@@ -171,7 +180,7 @@ const HeaderRight = () => {
     <TabBarIcon
       size={32}
       name="add-circle-outline"
-      onPress={() => router.push('/(nft-creation)/new')}
+      onPress={() => router.push('/(buy-nft)/new')}
     />
   );
 };

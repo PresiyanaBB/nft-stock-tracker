@@ -29,7 +29,7 @@ export default function Login() {
     try {
       await authenticate(authMode, email, password);
       if (authMode === "login") {
-            router.push('/(nft-purchase)');
+        router.push('/(owned-nft)');
       } else {
         router.push('/register');
       }
@@ -40,7 +40,7 @@ export default function Login() {
   }
 
   function onToggleAuthMode() {
-      router.push('/register');
+    router.push('/register');
     setAuthMode(authMode === 'login' ? 'register' : 'login');
   }
 

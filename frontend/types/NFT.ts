@@ -10,6 +10,7 @@ export type NFT = {
   creator: string;
   price: number; // Decimal as number
   image: string; // Base64 image as string
+  collected: boolean;
   createdAt: string;
   updatedAt: string;
 };

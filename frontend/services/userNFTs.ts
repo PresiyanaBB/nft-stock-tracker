@@ -12,8 +12,8 @@ async function getUserNFT(userNFT_id: string): Promise<ApiResponse<{ userNFT: Us
   return { data: response.data, message: "ok", status: "success" };
 }
 
-async function getAll(): Promise<UserNFTListResponse> {
-  const response = await Api.get("/userNFT");
+async function getUserNFTs(): Promise<UserNFTListResponse> {
+  const response = await Api.get(`/userNFT`);
 
   response.data.forEach(async (userNFT: UserNFT) => {
     try {
@@ -27,15 +27,28 @@ async function getAll(): Promise<UserNFTListResponse> {
   return { data: response.data, message: "ok", status: "success" };
 }
 
+async function getAll(): Promise<UserNFTListResponse> {
+  const response = await Api.get("/userNFT/all");
+
+  return { data: response.data, message: "ok", status: "success" };
+}
+
 async function validateUserNFT(UserNFTId: string, OwnerId: string): Promise<UserNFTResponse> {
   return Api.post("/userNFT/validate", { UserNFTId, OwnerId });
+}
+
+async function deleteUserNFT(userNFT_id: string): Promise<ApiResponse<{ message: string }>> {
+  const response = await Api.delete(`/userNFT/${userNFT_id}`);
+  return { data: response.data, message: "ok", status: "success" };
 }
 
 const userNFTService = {
   createUserNFT,
   getUserNFT,
+  getUserNFTs,
   getAll,
   validateUserNFT,
+  deleteUserNFT
 }
 
 export { userNFTService }

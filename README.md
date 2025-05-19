@@ -40,7 +40,7 @@
 
 7. Log in as admin and scan the QR code for the NFT of the collector
 
-
+##### Point of the NFT game is to "buy" the NFT and the first one to get it scanned by out admin wins the NFT.
 
 ## This project uses: 
 1. Fiber - go get github.com/gofiber/fiber/v2

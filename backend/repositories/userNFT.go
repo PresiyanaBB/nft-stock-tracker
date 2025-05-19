@@ -24,6 +24,18 @@ func (r *UserNFTRepository) GetManyUserNFTs(ctx context.Context, userId uuid.UUI
 	return userNFTs, nil
 }
 
+func (r *UserNFTRepository) GetAllUserNFTs(ctx context.Context) ([]*models.UserNFT, error) {
+	userNFTs := []*models.UserNFT{}
+
+	res := r.db.Model(&models.UserNFT{}).Preload("NFT").Order("updated_at desc").Find(&userNFTs)
+
+	if res.Error != nil {
+		return nil, res.Error
+	}
+
+	return userNFTs, nil
+}
+
 func (r *UserNFTRepository) GetUserNFT(ctx context.Context, userId uuid.UUID, userNFTId uuid.UUID) (*models.UserNFT, error) {
 	userNFT := &models.UserNFT{}
 
@@ -65,6 +77,18 @@ func (r *UserNFTRepository) UpdateUserNFT(ctx context.Context, userId uuid.UUID,
 	}
 
 	return r.GetUserNFT(ctx, userId, userNFTId)
+}
+
+func (r *UserNFTRepository) DeleteUserNFT(ctx context.Context, userNFTId uuid.UUID) error {
+	userNFT := &models.UserNFT{}
+
+	res := r.db.Model(userNFT).Where("id = ?", userNFTId).Delete(userNFT)
+
+	if res.Error != nil {
+		return res.Error
+	}
+
+	return nil
 }
 
 func NewUserNFTRepository(db *gorm.DB) *UserNFTRepository {

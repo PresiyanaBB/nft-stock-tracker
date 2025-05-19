@@ -35,7 +35,7 @@ export default function ScanUserNFTScreen() {
     try {
       Vibration.vibrate();
       setScanningEnabled(false);
-      // setIsLoading(true);
+      setIsLoading(true);
       console.log("Scanned data:", data);
       // Parsing the scanned data
       const [userNFT, owner] = data.split(",");
@@ -44,11 +44,20 @@ export default function ScanUserNFTScreen() {
 
       // Validating the NFT
       await userNFTService.validateUserNFT(UserNFTId, OwnerId);
-
+      const nftId = (await userNFTService.getAll()).data.find(userNFT => userNFT.id === UserNFTId)?.nft_id;
       Alert.alert('Success', "NFT validated successfully.", [
         { text: 'Ok', onPress: () => setScanningEnabled(true) },
       ]);
 
+      const deleted = (await userNFTService.getAll()).data.filter(userNFT => {
+        return userNFT.id !== UserNFTId && userNFT.nft_id === nftId;
+
+      });
+
+      // Delete all other user NFTs so that they can't be scanned again
+      deleted.forEach(async (userNFT) => {
+        await userNFTService.deleteUserNFT(userNFT.id);
+      });
     } catch (error: any) {
       Alert.alert('Error', error.message || "Failed to validate NFT. Please try again.");
       setScanningEnabled(true);

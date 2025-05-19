@@ -37,6 +37,26 @@ func (h *UserNFTHandler) GetManyUserNFTs(ctx *fiber.Ctx) error {
 	})
 }
 
+func (h *UserNFTHandler) GetAllUserNFTs(ctx *fiber.Ctx) error {
+	c, cancel := context.WithTimeout(context.Background(), time.Duration(5*time.Second))
+	defer cancel()
+
+	userNFTs, err := h.repo.GetAllUserNFTs(c)
+
+	if err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"status":  "fail",
+			"message": err.Error(),
+		})
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(&fiber.Map{
+		"status":  "success",
+		"message": "User NFTs retrieved successfully",
+		"data":    userNFTs,
+	})
+}
+
 func (h *UserNFTHandler) GetUserNFT(ctx *fiber.Ctx) error {
 	c, cancel := context.WithTimeout(context.Background(), time.Duration(5*time.Second))
 	defer cancel()
@@ -144,13 +164,38 @@ func (h *UserNFTHandler) ValidateUserNFT(ctx *fiber.Ctx) error {
 	})
 }
 
+func (h *UserNFTHandler) DeleteUserNFT(ctx *fiber.Ctx) error {
+	c, cancel := context.WithTimeout(context.Background(), time.Duration(5*time.Second))
+	defer cancel()
+
+	userNFTId, _ := uuid.Parse(ctx.Params("userNFT_id"))
+
+	err := h.repo.DeleteUserNFT(c, userNFTId)
+
+	if err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"status":  "fail",
+			"message": err.Error(),
+			"data":    nil,
+		})
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(&fiber.Map{
+		"status":  "success",
+		"message": "User NFT deleted successfully",
+		"data":    nil,
+	})
+}
+
 func NewUserNFTHandler(router fiber.Router, repo models.UserNFTRepository) {
 	handler := &UserNFTHandler{
 		repo: repo,
 	}
 
 	router.Get("/", handler.GetManyUserNFTs)
+	router.Get("/all", handler.GetAllUserNFTs)
 	router.Post("/", handler.CreateUserNFT)
 	router.Get("/:userNFT_id", handler.GetUserNFT)
 	router.Post("/validate", handler.ValidateUserNFT)
+	router.Delete("/:userNFT_id", handler.DeleteUserNFT)
 }

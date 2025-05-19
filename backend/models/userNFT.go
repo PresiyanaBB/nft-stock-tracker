@@ -2,9 +2,10 @@ package models
 
 import (
 	"context"
+	"time"
+
 	"github.com/google/uuid"
 	"gorm.io/gorm"
-	"time"
 )
 
 type UserNFT struct {
@@ -19,9 +20,11 @@ type UserNFT struct {
 
 type UserNFTRepository interface {
 	GetManyUserNFTs(ctx context.Context, userId uuid.UUID) ([]*UserNFT, error)
+	GetAllUserNFTs(ctx context.Context) ([]*UserNFT, error)
 	GetUserNFT(ctx context.Context, userId uuid.UUID, userNFTId uuid.UUID) (*UserNFT, error)
 	CreateUserNFT(ctx context.Context, userId uuid.UUID, userNFT *UserNFT) (*UserNFT, error)
 	UpdateUserNFT(ctx context.Context, userId uuid.UUID, userNFTId uuid.UUID, updateData map[string]interface{}) (*UserNFT, error)
+	DeleteUserNFT(ctx context.Context, userNFTId uuid.UUID) error
 }
 
 type ValidateUserNFT struct {

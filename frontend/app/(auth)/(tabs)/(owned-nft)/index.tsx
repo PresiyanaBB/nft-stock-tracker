@@ -2,7 +2,8 @@ import { HStack } from "@/components/HStack";
 import { Text } from "@/components/Text";
 import { VStack } from "@/components/VStack";
 import { userNFTService } from "@/services/userNFTs";
-import { UserNFT } from "@/types/userNFT";
+import { NFT } from "@/types/NFT";
+import { NFTService } from "@/services/NFTs";
 import { useFocusEffect } from "@react-navigation/native";
 import { router, useNavigation } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
@@ -10,17 +11,17 @@ import { Image, Alert, FlatList, TouchableOpacity, Button } from "react-native";
 import { validate as validateUUID } from 'uuid';
 import { useAuth } from "@/context/AuthContext";
 import { UserRole } from "@/types/user";
+import { all } from "axios";
 
 export default function UserNFTScreen() {
   const { user } = useAuth();
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
-  const [NFTs, setNFTs] = useState<UserNFT[]>([]);
+  const [NFTs, setNFTs] = useState<NFT[]>([]);
 
   function onGoToUserNFTPage(id: string) {
-    console.log("Fetching NFT:");
     if (validateUUID(id)) {
-      router.push(`/(nft-purchase)/nft/${id}`);
+      router.push(`/(owned-nft)/nft/${id}`);
     } else {
       Alert.alert("Error", "Invalid NFT ID.");
     }
@@ -29,7 +30,20 @@ export default function UserNFTScreen() {
   async function fetchNFTs() {
     try {
       setIsLoading(true);
-      const response = await userNFTService.getAll();
+      const response = await NFTService.getAll();
+      const userNFTs = await userNFTService.getUserNFTs();
+      const allUserNFTs = await userNFTService.getAll();
+      response.data = response.data.filter((nft: NFT) => {
+        nft.collected = false;
+        return userNFTs.data.some((userNFT) => {
+          if (userNFT.nft_id === nft.id) {
+            nft.collected = userNFT.collected;
+          }
+          return userNFT.nft_id === nft.id;
+        })
+      });
+      console.log("All User NFTs", allUserNFTs.data);
+      console.log("User NFTs", userNFTs.data);
       setNFTs(response.data);
     } catch (error) {
       console.error("Error fetching NFTs:", error);
@@ -65,7 +79,7 @@ export default function UserNFTScreen() {
               borderRadius: 10,
               alignItems: "center",
             }}
-            onPress={() => router.push('/(nft-creation)')}
+            onPress={() => router.push('/(buy-nft)/new')}
           >
             <Text style={{ color: "white", fontSize: 16, fontWeight: "bold" }}>
               Create NFT
@@ -99,15 +113,15 @@ export default function UserNFTScreen() {
               <HStack alignItems="center" justifyContent="space-between">
                 <HStack alignItems="center" gap={10}>
                   <VStack>
-                    <Image source={{ uri: `data:image/png;base64,${current_NFT.nft.image}` }}
+                    <Image source={{ uri: `data:image/png;base64,${current_NFT.image}` }}
                       style={{ width: 100, height: 100, borderRadius: 10 }}
                       resizeMode="cover"
                     />
                   </VStack>
                   <VStack>
-                    <Text fontSize={18} bold>{current_NFT.nft.name}</Text>
+                    <Text fontSize={18} bold>{current_NFT.name}</Text>
                     <Text fontSize={22} bold> | </Text>
-                    <Text fontSize={18} bold>{current_NFT.nft.price}</Text>
+                    <Text fontSize={18} bold>{current_NFT.price} $</Text>
                   </VStack>
                 </HStack>
 

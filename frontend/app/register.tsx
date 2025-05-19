@@ -33,7 +33,7 @@ export default function Register() {
     console.log("Register button pressed");
     try {
       await authenticate("register", email, password);
-      router.push('/(nft-purchase)');
+      router.push('/(owned-nft)');
     } catch (error) {
       console.error("Registration Error:", error);
       alert("Registration failed. Please try again.");

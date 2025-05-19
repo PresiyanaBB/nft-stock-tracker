@@ -12,7 +12,7 @@ export default function TabLayout() {
   const tabs = [
     {
       showFor: [UserRole.Collector, UserRole.Admin],
-      name: '(nft-creation)',
+      name: '(buy-nft)',
       displayName: 'Buy NFT',
       icon: 'search',
       options: {
@@ -21,7 +21,7 @@ export default function TabLayout() {
     },
     {
       showFor: [UserRole.Collector],
-      name: '(nft-purchase)',
+      name: '(owned-nft)',
       displayName: 'Owned NFT',
       icon: 'wallet',
       options: {
@@ -50,28 +50,28 @@ export default function TabLayout() {
 
   return (
     <Tabs>
-      { tabs.map(tab => (
+      {tabs.map(tab => (
         <Tabs.Screen
-          key={ tab.name }
-          name={ tab.name }
-          options={ {
+          key={tab.name}
+          name={tab.name}
+          options={{
             ...tab.options,
             headerTitle: tab.displayName,
             href: tab.showFor.includes(user?.role!) ? tab.name : null,
             tabBarLabel: ({ focused }) => (
-              <Text style={ { color: focused ? "black" : "gray", fontSize: 12 } } >
-                { tab.displayName }
+              <Text style={{ color: focused ? "black" : "gray", fontSize: 12 }} >
+                {tab.displayName}
               </Text>
             ),
             tabBarIcon: ({ focused }) => (
               <TabBarIcon
-                name={ tab.icon as ComponentProps<typeof Ionicons>['name'] }
-                color={ focused ? 'black' : "gray" }
+                name={tab.icon as ComponentProps<typeof Ionicons>['name']}
+                color={focused ? 'black' : "gray"}
               />
             )
-          } }
+          }}
         />
-      )) }
+      ))}
     </Tabs>
   );
 }

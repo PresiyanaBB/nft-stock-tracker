@@ -60,7 +60,10 @@ export default function UserNFTScreen() {
   );
 
   useEffect(() => {
-    navigation.setOptions({ headerTitle: "NFTs" });
+    navigation.setOptions({
+      headerTitle: "NFTs",
+      headerRight: () => < Text >Welcome, {user?.email}   </Text >
+    });
   }, [navigation]);
 
   return (

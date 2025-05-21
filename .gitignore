@@ -83,3 +83,10 @@ go.work.sum
 /backend/.idea/
 /backend/.idea
 .idea/
+/backend/package-lock.json
+# Expo
+/frontend/.expo/
+/frontend/.expo-shared/
+/frontend/.expo-env.d.test/
+/frontend/package-lock.json/
+/frontend/node_modules/

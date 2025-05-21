@@ -3,16 +3,17 @@ package stock
 import (
 	"encoding/json"
 	"fmt"
+	"sync"
+	"time"
+
 	"github.com/PresiyanaBB/crypto-price-tracker/config"
 	"github.com/PresiyanaBB/crypto-price-tracker/models/stock"
 	"github.com/gorilla/websocket"
 	"gorm.io/gorm"
-	"sync"
-	"time"
 )
 
 var (
-	symbols = []string{"AAPL", "AMZN", "BINANCE:BTCUSDT"}
+	symbols = []string{"AAPL", "AMZN", "GOOGL", "MSFT", "TSLA", "NFLX", "FB", "NVDA", "AMD", "INTC"}
 
 	broadcast = make(chan *stock.BroadcastMessage)
 

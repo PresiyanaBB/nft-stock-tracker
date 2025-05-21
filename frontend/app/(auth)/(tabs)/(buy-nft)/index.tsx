@@ -25,7 +25,8 @@ export default function NFTsScreen() {
   useEffect(() => {
     navigation.setOptions({
       headerTitle: "NFTs",
-      headerRight: () => (user?.role === UserRole.Admin ? <HeaderRight /> : null),
+      headerRight: () => (user?.role === UserRole.Admin ? <HeaderRight /> :
+        null),
     });
   }, [navigation, user]);
 

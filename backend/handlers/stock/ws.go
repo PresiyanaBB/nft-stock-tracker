@@ -2,8 +2,9 @@ package stock
 
 import (
 	"fmt"
-	"github.com/gorilla/websocket"
 	"net/http"
+
+	"github.com/gorilla/websocket"
 )
 
 func WSHandler(w http.ResponseWriter, r *http.Request) {
@@ -28,7 +29,8 @@ func WSHandler(w http.ResponseWriter, r *http.Request) {
 		_, symbol, err := conn.ReadMessage()
 		clientConns[conn] = string(symbol)
 		fmt.Println("New client connected")
-
+		fmt.Println("Client conn: ", clientConns[conn])
+		fmt.Println("Symbol: ", string(symbol))
 		if err != nil {
 			fmt.Println("Error reading from the client: ", err)
 			break

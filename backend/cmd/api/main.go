@@ -2,6 +2,9 @@ package main
 
 import (
 	"fmt"
+
+	"github.com/gofiber/fiber/v2/middleware/adaptor"
+
 	"github.com/PresiyanaBB/crypto-price-tracker/config"
 	"github.com/PresiyanaBB/crypto-price-tracker/db"
 	"github.com/PresiyanaBB/crypto-price-tracker/handlers"
@@ -11,7 +14,6 @@ import (
 	"github.com/PresiyanaBB/crypto-price-tracker/services"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	"net/http"
 )
 
 func main() {
@@ -49,15 +51,17 @@ func main() {
 	go stock.BroadcastUpdates()
 
 	//WS handlers
-	http.HandleFunc("/ws", stock.WSHandler)
+	// http.HandleFunc("/ws", stock.WSHandler)
 
-	http.HandleFunc("/stocks-history", func(w http.ResponseWriter, r *http.Request) {
-		stock.StocksHistoryHandler(w, r, database)
-	})
+	app.Get("/ws", adaptor.HTTPHandlerFunc(stock.WSHandler))
 
-	http.HandleFunc("/stock-candles", func(w http.ResponseWriter, r *http.Request) {
-		stock.CandlesHandler(w, r, database)
-	})
+	// http.HandleFunc("/stocks-history", func(w http.ResponseWriter, r *http.Request) {
+	// 	stock.StocksHistoryHandler(w, r, database)
+	// })
+
+	// http.HandleFunc("/stock-candles", func(w http.ResponseWriter, r *http.Request) {
+	// 	stock.CandlesHandler(w, r, database)
+	// })
 
 	// Routing
 	server := app.Group("/api")
@@ -65,6 +69,7 @@ func main() {
 
 	privateRoutes := server.Use(middlewares.AuthProtected(database))
 
+	handlers.NewCandleHandler(privateRoutes.Group("/candle"), repositories.NewCanleRepository(database))
 	handlers.NewNFTHandler(privateRoutes.Group("/nft"), nftRepository)
 	handlers.NewUserNFTHandler(privateRoutes.Group("/userNFT"), userNFTRepository)
 

@@ -39,6 +39,15 @@ export default function TabLayout() {
     },
     {
       showFor: [UserRole.Collector, UserRole.Admin],
+      name: '(stock)',
+      displayName: 'Stocks',
+      icon: 'bar-chart',
+      options: {
+        headerShown: false,
+      }
+    },
+    {
+      showFor: [UserRole.Collector, UserRole.Admin],
       name: 'settings',
       displayName: 'Settings',
       icon: 'cog',

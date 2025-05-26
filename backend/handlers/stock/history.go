@@ -2,9 +2,11 @@ package stock
 
 import (
 	"encoding/json"
-	"github.com/PresiyanaBB/crypto-price-tracker/models/stock"
-	"gorm.io/gorm"
 	"net/http"
+
+	"github.com/PresiyanaBB/crypto-price-tracker/models/stock"
+	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
 )
 
 func StocksHistoryHandler(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
@@ -21,4 +23,16 @@ func StocksHistoryHandler(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 	jsonResponse, _ := json.Marshal(groupedData)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(jsonResponse)
+}
+
+func StocksHistoryFiberHandler(c *fiber.Ctx, db *gorm.DB) error {
+	var candles []stock.Candle
+	db.Order("timestamp asc").Find(&candles)
+
+	groupedData := make(map[string][]stock.Candle)
+	for _, candle := range candles {
+		groupedData[candle.Symbol] = append(groupedData[candle.Symbol], candle)
+	}
+
+	return c.JSON(groupedData)
 }

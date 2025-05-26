@@ -1,6 +1,9 @@
 package stock
 
-import "time"
+import (
+	"context"
+	"time"
+)
 
 // Candle Represents single OHLC(Open, High, Low, Close)
 type Candle struct {
@@ -33,4 +36,9 @@ func (tc *TempCandle) ToCandle() *Candle {
 		Close:     tc.ClosePrice,
 		Timestamp: tc.CloseTime,
 	}
+}
+
+type CandleRepository interface {
+	StocksHistory(ctx context.Context) (map[string][]*Candle, error)
+	StockCandles(ctx context.Context, symbol string) ([]*Candle, error)
 }

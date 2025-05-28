@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/PresiyanaBB/crypto-price-tracker/models/stock"
+	"github.com/PresiyanaBB/nft-stock-tracker/models/stock"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )

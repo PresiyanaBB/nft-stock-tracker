@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/PresiyanaBB/crypto-price-tracker/models"
+	"github.com/PresiyanaBB/nft-stock-tracker/models"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/log"
 	"github.com/golang-jwt/jwt/v5"

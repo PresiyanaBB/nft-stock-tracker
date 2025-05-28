@@ -35,10 +35,14 @@ export function useCandles({ candles, visibleChart }: Props) {
         setStartToEndDifference({ amount: difference, percentage })
     }, [candles])
 
-    const chartData = useMemo(() => candles.map(({ timestamp, ...rest }) => ({
+    const chartData = useMemo(() => candles.map(({ timestamp, open, high, low, close }) => ({
         timestamp: new Date(timestamp).getTime(),
-        ...(visibleChart === 'candlesticks' ? rest : { value: rest.close }),
+        ...(visibleChart === 'candlesticks'
+            ? { open, high, low, close }
+            : { open, high, low, close }
+        ),
     })), [candles, visibleChart]);
+
 
     return {
         trendingColor: TRENDING_COLORS[trending],

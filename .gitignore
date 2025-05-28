@@ -90,3 +90,5 @@ go.work.sum
 /frontend/.expo-env.d.test/
 /frontend/package-lock.json/
 /frontend/node_modules/
+frontend/package-lock.json
+frontend/package-lock.json

@@ -2,9 +2,11 @@ package handlers
 
 import (
 	"context"
+	"fmt"
 	"time"
 
-	"github.com/PresiyanaBB/crypto-price-tracker/models/stock"
+	hs "github.com/PresiyanaBB/nft-stock-tracker/handlers/stock"
+	"github.com/PresiyanaBB/nft-stock-tracker/models/stock"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -49,6 +51,35 @@ func (h *CandleHandler) StocksHistory(ctx *fiber.Ctx) error {
 		"message": "Stocks history retrieved successfully",
 		"data":    history,
 	})
+}
+
+func WSHandler(ctx *fiber.Ctx) error {
+	wsconn := hs.GetWSConn()
+
+	// Clean up when the connection closes
+	defer func() {
+		fmt.Println("Client disconnected:", wsconn.RemoteAddr())
+		wsconn.Close()
+	}()
+
+	for {
+		// Read incoming message from client
+		messageType, msg, err := wsconn.ReadMessage()
+		if err != nil {
+			fmt.Println("Error reading WebSocket message:", err)
+			break
+		}
+
+		fmt.Printf("Received message: %s", msg)
+
+		// Echo the message back (or process it based on your logic)
+		err = wsconn.WriteMessage(messageType, msg)
+		if err != nil {
+			fmt.Println("Error writing WebSocket response:", err)
+			break
+		}
+	}
+	return nil
 }
 
 func NewCandleHandler(router fiber.Router, repo stock.CandleRepository) {

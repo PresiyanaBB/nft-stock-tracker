@@ -9,4 +9,4 @@ start:
 
 stop:
 	@docker-compose rm -v --force --stop
-	@docker rmi crypto-price-tracker
+	@docker rmi nft-stock-tracker

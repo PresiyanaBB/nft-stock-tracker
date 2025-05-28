@@ -3,7 +3,7 @@ package db
 import (
 	"fmt"
 
-	"github.com/PresiyanaBB/crypto-price-tracker/config"
+	"github.com/PresiyanaBB/nft-stock-tracker/config"
 	"github.com/gofiber/fiber/v2/log"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"

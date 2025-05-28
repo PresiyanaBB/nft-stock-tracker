@@ -1,4 +1,4 @@
-module github.com/PresiyanaBB/crypto-price-tracker
+module github.com/PresiyanaBB/nft-stock-tracker
 
 go 1.23.0
 

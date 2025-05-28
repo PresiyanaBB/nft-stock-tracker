@@ -5,7 +5,8 @@ import { baseUrl } from "@/network";
 import { Candle, WsCandleUpdate } from "@/types/candles";
 import { CandleService } from "@/services/candles";
 import { useFocusEffect, useLocalSearchParams, useNavigation } from "expo-router";
-import { useCallback, useEffect, useState } from "react";
+import CandlestickChart from "react-native-stock-chart";
+import React, { useCallback, useEffect, useState } from "react";
 import {
     ActivityIndicator,
     Alert,
@@ -21,7 +22,7 @@ export default function StockScreen() {
     const navigation = useNavigation();
     const { symbol } = useLocalSearchParams<{ symbol: string }>();
 
-    const [visibleChart, setVisibleChart] = useState<"line" | "candlesticks">("candlesticks");
+    const [visibleChart, setVisibleChart] = useState<"line" | "candlesticks">("line");
     const [isLoading, setIsLoading] = useState(true);
     const [candles, setCandles] = useState<Candle[]>([]);
 
@@ -80,7 +81,25 @@ export default function StockScreen() {
         );
     }
 
-    const lineData = chartData.map(d => d.value);
+    console.log("Chart Data:", chartData);
+
+    const candlestickData = chartData.map(item => ({
+        timestamp: item.timestamp,
+        open: item.open,
+        high: item.high,
+        low: item.low,
+        close: item.close,
+    }));
+    console.log("Filtered candlestickData:", candlestickData);
+
+    const lineChartData = chartData.filter(
+        (item) => "close" in item
+    ).map((item) => item.close);
+
+    console.log("Filtered lineChartData:", lineChartData);
+    console.log("Candlestick Data:", JSON.stringify(chartData, null, 2));
+    // console.log("CandlestickChart Component:", CandlestickChart);
+    // console.log("CandlestickChart Functions:", Object.keys(CandlestickChart));
 
     return (
         <ScrollView style={styles.container}>
@@ -116,12 +135,11 @@ export default function StockScreen() {
                     onPress={() => setVisibleChart("candlesticks")}
                 />
             </View>
-
             {visibleChart === "line" ? (
                 <ChartKitLineChart
                     data={{
                         labels: [],
-                        datasets: [{ data: lineData }]
+                        datasets: [{ data: lineChartData }],
                     }}
                     width={chartWidth}
                     height={chartHeight}
@@ -140,9 +158,33 @@ export default function StockScreen() {
                     style={{ marginLeft: -10 }}
                 />
             ) : (
+                //     <View style={{ width: chartWidth, height: chartHeight }}>
+                //     {/* <CandlestickChart
+                //             data={candlestickData}
+                //             width={chartWidth}
+                //             height={chartHeight}
+                //             candleWidth={8}
+                //             candleColorPositive="green"
+                //             candleColorNegative="red"
+                //         /> */}
+
+
+                //         {/* <View style={styles.priceContainer}>
+                //             <Text style={styles.priceText}>Open: {data.open.toFixed(2)}</Text>
+                //             <Text style={styles.priceText}>High: {data.high.toFixed(2)}</Text>
+                //             <Text style={styles.priceText}>Low: {data.low.toFixed(2)}</Text>
+                //             <Text style={styles.priceText}>Close: {data.close.toFixed(2)}</Text>
+                //         </View>
+
+                //         <Text style={styles.datetimeText}>
+                //             {new Date(data.timestamp).toLocaleString()}
+                //         </Text> */}
+                // </View>
+
+
                 <View style={{ height: chartHeight, justifyContent: "center", alignItems: "center" }}>
                     <Text style={{ color: "gray" }}>
-                        Candlestick charts are not supported in `react-native-chart-kit`.
+                        We will have candlesticks soon. To be implemented.
                     </Text>
                 </View>
             )}
@@ -199,5 +241,16 @@ const styles = StyleSheet.create({
     priceStatus: {
         fontSize: 15,
         fontWeight: "semibold",
+    },
+    priceText: {
+        color: "white",
+        fontSize: 14,
+    },
+    datetimeText: {
+        position: "absolute",
+        bottom: 10,
+        right: 10,
+        color: "gray",
+        fontSize: 12,
     },
 });

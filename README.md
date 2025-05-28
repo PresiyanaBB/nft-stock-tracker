@@ -43,6 +43,10 @@
 
 ##### Point of the NFT game is to "buy" the NFT and the first one to get it scanned by out admin wins the NFT.
 
+## Stock trading section
+1. Prime trading hours are from 9:30am to 4:00pm EST, which means 4:30pm to 11pm bulgarian time.
+
+
 ## This project uses: 
 1. Fiber
 2. Golang Air for how reloading - https://github.com/air-verse/air/blob/master/air_example.toml
@@ -52,5 +56,5 @@
 4. Gorm for database actions - gorm.io
 5. Decimal use to handle precision loss - go get github.com/shopspring/decimal
 6. Frontend - https://docs.expo.dev/
-7. API from Finnhub
+7. API for trades from Finnhub
 8. Web socket from gorilla

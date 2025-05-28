@@ -6,8 +6,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/PresiyanaBB/crypto-price-tracker/config"
-	"github.com/PresiyanaBB/crypto-price-tracker/models/stock"
+	"github.com/PresiyanaBB/nft-stock-tracker/config"
+	"github.com/PresiyanaBB/nft-stock-tracker/models/stock"
 	"github.com/gorilla/websocket"
 	"gorm.io/gorm"
 )
@@ -23,20 +23,68 @@ var (
 	tempCandles = make(map[string]*stock.TempCandle)
 
 	mutex sync.Mutex
+
+	wsConn *websocket.Conn
 )
 
+func GetClientConns() map[*websocket.Conn]string {
+	return clientConns
+}
+
+func SetClientConns(conn *websocket.Conn, symbol string) {
+	mutex.Lock()
+	defer mutex.Unlock()
+
+	// Register the new client to the symbol they're subscribing to
+	clientConns[conn] = symbol
+
+	// Send a message to the client confirming the subscription
+	msg := fmt.Sprintf("Subscribed to %s", symbol)
+	if err := conn.WriteMessage(websocket.TextMessage, []byte(msg)); err != nil {
+		fmt.Println("Error sending subscription confirmation:", err)
+	}
+}
+
+func DeleteClientConn(conn *websocket.Conn) {
+	mutex.Lock()
+	defer mutex.Unlock()
+
+	// Unregister the client connection
+	if _, exists := clientConns[conn]; exists {
+		delete(clientConns, conn)
+		fmt.Println("Client disconnected and unregistered.")
+	} else {
+		fmt.Println("Client connection not found.")
+	}
+}
+
 func ConnectToFinnhub(env *config.EnvConfig) *websocket.Conn {
+	// Use Gorilla WebSocket for client connection (Fiber does not support WebSocket clients)
 	ws, _, err := websocket.DefaultDialer.Dial(fmt.Sprintf("wss://ws.finnhub.io?token=%s", env.APIKey), nil)
 	if err != nil {
-		panic(err)
+		fmt.Println("WebSocket connection failed: ", err)
 	}
 
+	fmt.Println("Connected to Finnhub WebSocket")
+
+	// Subscribe to symbols
 	for _, s := range symbols {
 		msg, _ := json.Marshal(map[string]interface{}{"type": "subscribe", "symbol": s})
-		ws.WriteMessage(websocket.TextMessage, msg)
+		if err := ws.WriteMessage(websocket.TextMessage, msg); err != nil {
+			fmt.Println("Error subscribing:", err)
+		}
 	}
 
+	wsConn = ws
 	return ws
+}
+
+func GetWSConn() *websocket.Conn {
+	if wsConn == nil {
+		fmt.Println("WebSocket connection is not established.")
+		return nil
+	}
+	return wsConn
 }
 
 func HandleFinnhubMessages(ws *websocket.Conn, db *gorm.DB) {
@@ -54,6 +102,10 @@ func HandleFinnhubMessages(ws *websocket.Conn, db *gorm.DB) {
 				processTradeData(&trade, db)
 			}
 		}
+
+		// Clean up old trades older than 24 hours
+		cutoffTime := time.Now().Add(-24 * time.Hour)
+		db.Where("timestamp < ?", cutoffTime).Delete(&stock.Candle{})
 	}
 }
 

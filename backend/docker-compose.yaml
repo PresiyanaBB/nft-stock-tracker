@@ -4,8 +4,8 @@ services:
   app:
     tty: true #keep the container running
     restart: always
-    image: crypto-price-tracker
-    container_name: crypto-price-tracker
+    image: nft-stock-tracker
+    container_name: nft-stock-tracker
     build: .
     ports:
       - 8081:8081
@@ -22,7 +22,7 @@ services:
 
   db:
     image: postgres:alpine
-    container_name: crypto-price-tracker-db
+    container_name: nft-stock-tracker-db
     environment:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${DB_USER}
@@ -34,13 +34,14 @@ services:
     networks:
       - application
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER}" ]
       interval: 10s
       timeout: 5s
       retries: 5
 
 networks:
   application:
+
 
 volumes:
   postgres-db:

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/PresiyanaBB/crypto-price-tracker/models"
+	"github.com/PresiyanaBB/nft-stock-tracker/models"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	"github.com/skip2/go-qrcode"

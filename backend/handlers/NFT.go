@@ -2,10 +2,11 @@ package handlers
 
 import (
 	"context"
-	"github.com/PresiyanaBB/crypto-price-tracker/models"
+	"time"
+
+	"github.com/PresiyanaBB/nft-stock-tracker/models"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
-	"time"
 )
 
 type NFTHandler struct {

@@ -7,8 +7,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/PresiyanaBB/crypto-price-tracker/models"
-	"github.com/PresiyanaBB/crypto-price-tracker/utils"
+	"github.com/PresiyanaBB/nft-stock-tracker/models"
+	"github.com/PresiyanaBB/nft-stock-tracker/utils"
 	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"

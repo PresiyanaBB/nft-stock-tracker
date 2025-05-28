@@ -1,8 +1,8 @@
 package db
 
 import (
-	"github.com/PresiyanaBB/crypto-price-tracker/models"
-	"github.com/PresiyanaBB/crypto-price-tracker/models/stock"
+	"github.com/PresiyanaBB/nft-stock-tracker/models"
+	"github.com/PresiyanaBB/nft-stock-tracker/models/stock"
 	"gorm.io/gorm"
 )
 

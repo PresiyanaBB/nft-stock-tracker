@@ -2,7 +2,8 @@ package repositories
 
 import (
 	"context"
-	"github.com/PresiyanaBB/crypto-price-tracker/models"
+
+	"github.com/PresiyanaBB/nft-stock-tracker/models"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )

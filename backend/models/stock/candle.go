@@ -3,6 +3,8 @@ package stock
 import (
 	"context"
 	"time"
+
+	"github.com/gorilla/websocket"
 )
 
 // Candle Represents single OHLC(Open, High, Low, Close)
@@ -41,4 +43,5 @@ func (tc *TempCandle) ToCandle() *Candle {
 type CandleRepository interface {
 	StocksHistory(ctx context.Context) (map[string][]*Candle, error)
 	StockCandles(ctx context.Context, symbol string) ([]*Candle, error)
+	WSHandler(c *websocket.Conn)
 }

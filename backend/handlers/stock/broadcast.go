@@ -3,9 +3,10 @@ package stock
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/PresiyanaBB/crypto-price-tracker/models/stock"
-	"github.com/gorilla/websocket"
 	"time"
+
+	"github.com/PresiyanaBB/nft-stock-tracker/models/stock"
+	"github.com/gorilla/websocket"
 )
 
 func BroadcastUpdates() {

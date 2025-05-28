@@ -2,10 +2,10 @@ package handlers
 
 import (
 	"context"
-// 	"fmt"
+	// 	"fmt"
 	"time"
 
-	"github.com/PresiyanaBB/crypto-price-tracker/models"
+	"github.com/PresiyanaBB/nft-stock-tracker/models"
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 )
@@ -22,14 +22,12 @@ func (h *AuthHandler) Login(ctx *fiber.Ctx) error {
 	c, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-
 	if err := ctx.BodyParser(&creds); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "fail",
 			"message": "Invalid request format. Please provide valid JSON.",
 		})
 	}
-
 
 	if err := validate.Struct(creds); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
@@ -55,7 +53,6 @@ func (h *AuthHandler) Login(ctx *fiber.Ctx) error {
 		},
 	})
 }
-
 
 func (h *AuthHandler) Register(ctx *fiber.Ctx) error {
 	creds := &models.AuthCredentials{}

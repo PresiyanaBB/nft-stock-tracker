@@ -1,5 +1,5 @@
 import { Candle } from "@/types/candles";
-import { StyleSheet, Text, TouchableOpacity, View, Dimensions } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { StockImage } from "./StockImage";
 import { LineChart as ChartKitLineChart } from "react-native-chart-kit";
 import { useCandles } from "@/hooks/useCandles";
@@ -19,8 +19,13 @@ export function StockRow({ candles, symbol, onPress }: Props) {
         startToEndDifference
     } = useCandles({ candles, visibleChart: 'line' });
 
-    // Convert chartData to numbers (close prices)
-    const lineData = chartData.map((item) => item.value);
+    const lineData = chartData.map(item => ({
+        open: item.open,
+        high: item.high,
+        low: item.low,
+        close: item.close,
+        timestamp: item.timestamp,
+    }));
 
     return (
         <TouchableOpacity style={styles.container} onPress={onPress}>
@@ -32,7 +37,7 @@ export function StockRow({ candles, symbol, onPress }: Props) {
             <ChartKitLineChart
                 data={{
                     labels: [], // Optional, or use timestamps
-                    datasets: [{ data: lineData }]
+                    datasets: [{ data: lineData.map(item => item.close) }],
                 }}
                 width={100}
                 height={100}

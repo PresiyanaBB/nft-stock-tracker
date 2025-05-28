@@ -23,8 +23,13 @@ import (
 // 		return err_usernft
 // 	}
 
+// 	err_candle := db.Migrator().DropTable(&stock.Candle{})
+// 	if err_candle != nil {
+// 		return err_candle
+// 	}
+
 // 	// Recreate it with the updated struct
-// 	return db.AutoMigrate(&models.NFT{}, models.UserNFT{}, models.User{})
+// 	return db.AutoMigrate(&models.NFT{}, models.UserNFT{}, models.User{}, &stock.Candle{})
 // }
 
 func DBMigrator(db *gorm.DB) error {

@@ -1,21 +1,31 @@
 # Welcome 👋
 
+## Description
+
+1. This is a simple NFT marketplace game app that allows users to buy NFTs. When a NFT is purchased, the first person to find the admin of the app and have him scan the QR code wins the NFT and only this user will be able to have it. 
+
+2. Another feature of this app is the real-time stock tracker that shows the market for one of the most popular companies including Apple, Amazon, Microsoft, Google and much more. 
+
+
 ## Get started
 
-1. Install dependencies
+1. Create a .env file in backend/ and add the following according to you:
+   ```
+   SERVER_PORT=8081
+   API_KEY=<get your api key after registrating to Finnhub>
+   DB_HOST=localhost
+   DB_NAME=postgres
+   DB_USER=postgres
+   DB_PASSWORD=postgres
+   DB_SSLMODE=disable
+   JWT_SECRET=secret
+   ```
+
+2. Install dependencies in the frontend/
 
    ```bash
    npm install
    ```
-
-2. Create a .env file in backend/ and add the following according to you:
-   - SERVER_PORT=8081
-   - API_KEY=<get your api key after registrating to Finnhub>
-   - DB_HOST=localhost
-   - DB_NAME=postgres
-   - DB_USER=postgres
-   - DB_PASSWORD=postgres
-   - DB_SSLMODE=disable
 
 3. Start the app
 
@@ -45,16 +55,14 @@
 
 ## Stock trading section
 1. Prime trading hours are from 9:30am to 4:00pm EST, which means 4:30pm to 11pm bulgarian time.
+2. Open section Stock to see the charts.
 
 
 ## This project uses: 
 1. Fiber
-2. Golang Air for how reloading - https://github.com/air-verse/air/blob/master/air_example.toml
-3. For env 
-   - go get github.com/caarlos0/env 
-   - go get github.com/joho/godotenv
-4. Gorm for database actions - gorm.io
-5. Decimal use to handle precision loss - go get github.com/shopspring/decimal
-6. Frontend - https://docs.expo.dev/
-7. API for trades from Finnhub
-8. Web socket from gorilla
+2. Golang Air for hot reloading - https://github.com/air-verse/air/blob/master/air_example.toml
+3. Gorm for database actions - gorm.io
+4. Postgres for the database
+5. Frontend - https://docs.expo.dev/
+6. API for trades from Finnhub
+7. Web socket from gorilla

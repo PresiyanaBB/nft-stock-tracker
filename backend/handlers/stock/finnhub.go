@@ -59,7 +59,7 @@ func DeleteClientConn(conn *websocket.Conn) {
 }
 
 func ConnectToFinnhub(env *config.EnvConfig) *websocket.Conn {
-	// Use Gorilla WebSocket for client connection (Fiber does not support WebSocket clients)
+	// Use Gorilla WebSocket for client connection (Fiber does not support outer WebSocket clients)
 	ws, _, err := websocket.DefaultDialer.Dial(fmt.Sprintf("wss://ws.finnhub.io?token=%s", env.APIKey), nil)
 	if err != nil {
 		fmt.Println("WebSocket connection failed: ", err)

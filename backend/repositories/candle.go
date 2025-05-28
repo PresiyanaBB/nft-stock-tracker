@@ -45,9 +45,8 @@ func (r *CandleRepository) StocksHistory(ctx context.Context) (map[string][]*ms.
 }
 
 func (r *CandleRepository) WSHandler(c *websocket.Conn) {
-	// Close WebSocket connection when the client disconnects
 	defer func() {
-		hs.DeleteClientConn(c) // Handle client removal
+		hs.DeleteClientConn(c)
 		fmt.Println("Client disconnected!")
 		c.Close()
 	}()
@@ -60,11 +59,9 @@ func (r *CandleRepository) WSHandler(c *websocket.Conn) {
 			break
 		}
 
-		// Store client subscription data
 		hs.SetClientConns(c, string(message))
 		fmt.Println("New Client Connected, subscribed to:", string(message))
 
-		// Echo back the message or process further if needed
 		if err := c.WriteMessage(messageType, []byte("Subscription confirmed: "+string(message))); err != nil {
 			fmt.Println("Error writing WebSocket response:", err)
 			break

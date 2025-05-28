@@ -56,14 +56,12 @@ func (h *CandleHandler) StocksHistory(ctx *fiber.Ctx) error {
 func WSHandler(ctx *fiber.Ctx) error {
 	wsconn := hs.GetWSConn()
 
-	// Clean up when the connection closes
 	defer func() {
 		fmt.Println("Client disconnected:", wsconn.RemoteAddr())
 		wsconn.Close()
 	}()
 
 	for {
-		// Read incoming message from client
 		messageType, msg, err := wsconn.ReadMessage()
 		if err != nil {
 			fmt.Println("Error reading WebSocket message:", err)
@@ -72,7 +70,6 @@ func WSHandler(ctx *fiber.Ctx) error {
 
 		fmt.Printf("Received message: %s", msg)
 
-		// Echo the message back (or process it based on your logic)
 		err = wsconn.WriteMessage(messageType, msg)
 		if err != nil {
 			fmt.Println("Error writing WebSocket response:", err)

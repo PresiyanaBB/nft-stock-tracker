@@ -18,7 +18,6 @@ export default function IndexScreen() {
         try {
             setRefreshing(true);
             const response = await CandleService.stocksHistory();
-            // Ensure response.data is a Record<string, Candle[]>
             setStocks(
                 Array.isArray(response.data)
                     ? { default: response.data }

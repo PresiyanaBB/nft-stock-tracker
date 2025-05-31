@@ -63,6 +63,7 @@
 2. Golang Air for hot reloading - https://github.com/air-verse/air/blob/master/air_example.toml
 3. Gorm for database actions - gorm.io
 4. Postgres for the database
-5. Frontend - https://docs.expo.dev/
-6. API for trades from Finnhub
-7. Web socket from gorilla
+5. Docker
+6. Frontend - https://docs.expo.dev/
+7. API for trades from Finnhub
+8. Web socket from gorilla

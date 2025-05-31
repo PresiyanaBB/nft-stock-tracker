@@ -1,10 +1,10 @@
 package models
 
 import (
-	"github.com/google/uuid"
-// 	"golang.org/x/crypto/bcrypt"
-	"gorm.io/gorm"
 	"time"
+
+	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 type UserRole string

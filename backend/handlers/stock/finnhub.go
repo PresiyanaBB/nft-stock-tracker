@@ -103,8 +103,8 @@ func HandleFinnhubMessages(ws *websocket.Conn, db *gorm.DB) {
 			}
 		}
 
-		// Clean up old trades older than 24 hours
-		cutoffTime := time.Now().Add(-24 * time.Hour)
+		// Clean up old trades older than 3 hours
+		cutoffTime := time.Now().Add(-3 * time.Hour)
 		db.Where("timestamp < ?", cutoffTime).Delete(&stock.Candle{})
 	}
 }

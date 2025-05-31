@@ -22,13 +22,11 @@ type AuthService interface {
 	Register(ctx context.Context, registerData *AuthCredentials) (string, *User, error)
 }
 
-// Check if a password matches a hash
 func MatchesHash(password, hash string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	return err == nil
 }
 
-// Checks if an email is valid
 func IsValidEmail(email string) bool {
 	_, err := mail.ParseAddress(email)
 	return err == nil

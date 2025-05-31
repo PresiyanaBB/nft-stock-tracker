@@ -7,11 +7,10 @@ import { NFTService } from "@/services/NFTs";
 import { useFocusEffect } from "@react-navigation/native";
 import { router, useNavigation } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
-import { Image, Alert, FlatList, TouchableOpacity, Button } from "react-native";
+import { Image, Alert, FlatList, TouchableOpacity } from "react-native";
 import { validate as validateUUID } from 'uuid';
 import { useAuth } from "@/context/AuthContext";
 import { UserRole } from "@/types/user";
-import { all } from "axios";
 
 export default function UserNFTScreen() {
   const { user } = useAuth();

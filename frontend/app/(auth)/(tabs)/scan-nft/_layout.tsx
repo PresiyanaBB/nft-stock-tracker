@@ -5,7 +5,6 @@ import { userNFTService } from '@/services/userNFTs';
 import { BarcodeScanningResult, CameraView, useCameraPermissions } from 'expo-camera';
 import { useState } from 'react';
 import { ActivityIndicator, Alert, Vibration } from 'react-native';
-import { validate as validateUUID } from 'uuid';
 
 export default function ScanUserNFTScreen() {
   const [permission, requestPermission] = useCameraPermissions();

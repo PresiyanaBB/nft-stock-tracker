@@ -54,8 +54,8 @@
 ##### Point of the NFT game is to "buy" the NFT and the first one to get it scanned by out admin wins the NFT.
 
 ## Stock trading section
-1. Prime trading hours are from 9:30am to 4:00pm EST, which means 4:30pm to 11pm bulgarian time.
-2. Open section Stock to see the charts.
+1. Prime trading hours are Monday to Friday from 9:30am to 4:00pm EST, which means 4:30pm to 11:00pm bulgarian time.
+2. Open section Stock to see the charts. Note that it will take time for the application to receive data, especially if you are not in the prime trading hours.
 
 
 ## This project uses: 
